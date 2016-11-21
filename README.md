@@ -79,3 +79,31 @@ class StateExample extends React.Component {
 
 export default StateExample;
 ~~~
+
+state 생성 및 초기화 시
+
+~~~javascript
+this.state = {
+  header:'header initial state',
+  content: 'content initial state'
+}; 
+~~~
+
+state를 렌더링 할 땐
+
+~~~javascript
+<h1>{this.state.header}</h1>
+<h2>{this.state.content}</h2>
+~~~
+
+state 업데이트 시
+
+~~~javascript
+updateHeader(text) {
+  this.setState({
+    header:'header has changed'
+  });
+}
+~~~
+
+와 같이 사용한다.
