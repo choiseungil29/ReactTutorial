@@ -108,4 +108,4 @@ updateHeader(text) {
 
 와 같이 사용한다.
 
-state를 업데이트 할 때, ES6의 class에서는 auto binding이 되지 않으므로, setState 메소드를 포함하는 메소드를 bind해주어야 한다.
+state를 업데이트 할 때 ES6의 class에서는 auto binding이 되지 않으므로 setState 메소드를 포함하는 메소드를 bind해주어야 한다.
