@@ -37,6 +37,6 @@ ComponentName.propTypes = {
 };
 ~~~
 
-type과 다른 값이 들어올 경우 브라우저에서 에러를 출력하게 된다.
+props의 type과 들어온 값의 type이 일치하지 않을시 브라우저에서 에러를 출력하게 된다.
 
 [type의 종류](https://facebook.github.io/react/docs/typechecking-with-proptypes.html)
