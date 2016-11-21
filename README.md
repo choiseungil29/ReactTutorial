@@ -3,11 +3,13 @@
 props는 컴포넌트를 사용할 데이터 중 변동되지 않는 데이터를 다룰 때 사용되어진다.
 
 최초로 만들시엔 다음과 같이 사용한다.
+'''javascript
 > render() {
 >   return (
 >     <*TagName>{this.props.propsName}*/>
 >     );
 > }
+'''
 
 다른 컴포넌트에서 props이 들어있는 컴포넌트를 사용할 때에는,
 > <*ComponentName propsName='values'*/>
