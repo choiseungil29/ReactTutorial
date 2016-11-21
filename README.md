@@ -80,7 +80,7 @@ class StateExample extends React.Component {
 export default StateExample;
 ~~~
 
-state 생성 및 초기화 시
+state 생성 및 초기화
 
 ~~~javascript
 this.state = {
@@ -89,14 +89,14 @@ this.state = {
 }; 
 ~~~
 
-state를 렌더링 할 땐
+state를 렌더링
 
 ~~~javascript
 <h1>{this.state.header}</h1>
 <h2>{this.state.content}</h2>
 ~~~
 
-state 업데이트 시
+state 업데이트
 
 ~~~javascript
 updateHeader(text) {
@@ -107,3 +107,5 @@ updateHeader(text) {
 ~~~
 
 와 같이 사용한다.
+
+state를 업데이트 할 때, ES6의 class에서는 auto binding이 되지 않으므로, setState 메소드를 포함하는 메소드를 bind해주어야 한다.
