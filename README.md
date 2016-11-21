@@ -26,4 +26,5 @@ type검증은 아래와 같은 방법으로 사용한다
 > };
 
 type에 문제가 있을 경우 브라우저에서 에러를 출력하게 된다.
+
 [type의 종류](https://facebook.github.io/react/docs/typechecking-with-proptypes.html)
