@@ -19,7 +19,7 @@ class RandomNumber extends React.Component {
         <h1>RANDOM NUMBER: {this.props.number}</h1>
         <button onClick={this.updateNumber}>Randomize</button>
       </div>
-      );
+    );
   }
 }
 
