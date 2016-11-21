@@ -19,17 +19,17 @@ render() {
 와 같이 쓰면 된다.
 
 default 값을 설정할 수도 있는데, 다음과 같이 사용하면 된다.
-~~~
-ComponentName*.defaultProps = {
-  PropsName*: values,
-  PropsName*: values
+~~~javascript
+ComponentName.defaultProps = {
+  PropsName: values,
+  PropsName: values
 };
 ~~~
 
 type검증은 아래와 같은 방법으로 사용한다
-~~~
-ComponentName*.propTypes = {
-  PropsName*: React.PropTypes.string
+~~~javascript
+ComponentName.propTypes = {
+  PropsName: React.PropTypes.string
 };
 ~~~
 
