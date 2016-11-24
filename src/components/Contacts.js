@@ -6,39 +6,45 @@ class Contacts extends React.Component {
   constructor(props) {
     super(props);
     this.state = {
-      title: 'clogic',
       contactData: [
         {name:'clogic', phone:'010-0000-0000'},
         {name:'clogic', phone:'010-0000-0000'},
         {name:'clogic', phone:'010-0000-0000'},
         {name:'clogic', phone:'010-0000-0000'}
       ],
-      test: 'what?'
+      selectedKey: -1,
+      selected: {
+        name: '',
+        phone: ''
+      }
     };
   }
 
-  insert(name, phone) {
+  onSelect(key) {
+    if(this.state.selectedKey == key) {
+      console.log('key select canceled');
+      this.setState({
+        selectedKey: -1,
+        selected: {
+          name: '',
+          phone: ''
+        }
+      });
+      return;
+    }
 
-    /**
-     * 이것도 된다.
-     */
-    let newState = update(this.state.contactData, {
-      $push: [{'name': name, 'phone': phone}]
-    });
     this.setState({
-      contactData: newState
+      selectedKey: key,
+      selected: this.state.contactData[key]
     });
+    console.log(key + ' is selected');
+  }
 
-    /**
-     * 아래 주석쳐둔 코드도 정상작동
-     */
-    /*this.setState({
-      contactData: update(this.state.contactData, {
-        $push: [{'name': name, 'phone': phone}]
-      })
-    });*/
-    console.log(this.state);
-    console.log(this.state.contactData);
+  isSelected(key) {
+    if(this.state.selectedKey == key) {
+      return true;
+    }
+    return false;
   }
 
   render() {
@@ -47,23 +53,92 @@ class Contacts extends React.Component {
         <h1>contacts</h1>
         <ul>
           {this.state.contactData.map((contact, i) => {
-            return (<ContactInfo name={contact.name} phone={contact.phone} key={i}/>);
+            return (<ContactInfo name={contact.name}
+                                  phone={contact.phone}
+                                  key={i}
+                                  contactKey={i}
+                                  onSelect={this.onSelect.bind(this)}
+                                  isSelected={this.isSelected.bind(this)}/>);
           })}
         </ul>
-        <ContactCreator insert={this.insert.bind(this)} />
+        <ContactCreator insert={this._insert.bind(this)} />
+        <ContactRemover remove={this._remove.bind(this)}/>
+        <ContactEditor onEdit={this._edit.bind(this)}
+                       isSelected={(this.state.selectedKey != -1)}
+                       contact={this.state.selected} />
       </div>
     );
+  }
+
+  _insert(name, phone) {
+    this.setState({
+      contactData: update(this.state.contactData, {
+        $push: [{'name': name, 'phone': phone}]
+      })
+    });
+  }
+
+  _edit(name, phone) {
+    // 읽어야함
+    this.setState({
+        contactData: update(
+            this.state.contactData,
+            {
+                [this.state.selectedKey]: {
+                    name: { $set: name },
+                    phone: { $set: phone }
+                }
+            }
+        ),
+        selected: {
+            name: name,
+            phone: phone
+        }
+    });
+  }
+
+  _remove() {
+    if(this.state.selectedKey == -1) {
+      console.log('contact is not selected');
+      return;
+    }
+
+    this.setState({
+      contactData: update(this.state.contactData, {
+        $splice: [[this.state.selectedKey, 1]]
+      }),
+
+      selectedKey: -1
+    });
   }
 }
 
 class ContactInfo extends React.Component {
+
+  onClick() {
+    this.props.onSelect(this.props.contactKey);
+  }
+
   render() {
-    return (<li>{this.props.name} {this.props.phone}</li>);
+
+    let getStyle = (isSelected) => {
+      if(!isSelected(this.props.contactKey)) {
+        return;
+      }
+
+      let style = {
+        fontWeight: 'bold',
+        backgroundColor: '#4efcd8'
+      };
+
+      return style;
+    }
+
+    return (<li style={getStyle(this.props.isSelected)} onClick={this.onClick.bind(this)}>{this.props.name} {this.props.phone}</li>);
   }
 }
 
 class ContactCreator extends React.Component {
-
   constructor(props) {
     super(props);
 
@@ -98,4 +173,87 @@ class ContactCreator extends React.Component {
   }
 }
 
+class ContactEditor extends React.Component {
+  constructor(props) {
+    super(props);
+
+    this.state = {
+      name: '',
+      phone: ''
+    };
+  }
+
+  // 이것도 읽어야함
+  componentWillReceiveProps(nextProps) {
+    this.setState({
+      name: nextProps.contact.name,
+      phone: nextProps.contact.phone
+    });
+  }
+
+  onClick() {
+    if(!this.props.isSelected) {
+      console.log("contact is not selected");
+      return;
+    }
+    this.props.onEdit(this.state.name, this.state.phone);
+  }
+
+  onChange(e) {
+    var nextState = {};
+    nextState[e.target.name] = e.target.value;
+    this.setState(nextState);
+  }
+
+  render() {
+    return (
+      <div>
+        <p>
+          <input type="text"
+              name="name"
+              placeholder="name"
+              value={this.state.name}
+              onChange={this.onChange.bind(this)}/>
+
+          <input type="text"
+              name="phone"
+              placeholder="phone"
+              value={this.state.phone}
+              onChange={this.onChange.bind(this)}/>
+          <button onClick={this.onClick.bind(this)}>
+          Edit
+          </button>
+        </p>
+      </div>
+      )
+  }
+}
+
+class ContactRemover extends React.Component {
+
+  onClick() {
+    this.props.remove();
+  }
+
+  render() {
+    return (<button onClick={this.onClick.bind(this)}>Remove selected contact</button>);
+  }
+}
+
 export default Contacts;
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
