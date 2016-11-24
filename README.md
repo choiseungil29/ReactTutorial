@@ -163,3 +163,56 @@ this.setState({
 ~~~
 $splice시 []안에 배열을 던져 삭제할 범위를 지정한다.
 ex) $splice: [ [startIndex, range] ]
+
+## Component Lifecycle
+### 컴포넌트 생성 시
+constructor -> componentWillMount -> render -> componentDidMount
+### 컴포넌트 내부 props가 변경되었을 시
+componentWillReceiveProps -> shouldComponentUpdate -> componentWillUpdate -> render -> componentDidMount
+### 컴포넌트 내부 state가 변경되었을 시
+shouldComponentUpdate -> componentWillUpdate -> render -> componentDidMount
+### 컴포넌트 삭제 시
+componentWillUnmount
+
+#### 함수별 역할
+
+##### 생성
+
+**constructor**
+- state들을 생성할 수 있다.
+
+**componentWillMount**
+- 마운트 되기 이전에 실행되는 함수
+- 컴포넌트가 DOM위에 만들어지기 전에 실행된다.
+
+**render**
+- 실제 컴포넌트의 렌더링을 담당하는 함수
+
+**componentDidMount**
+- 컴포넌트 최초 렌더링 후 실행되어지는 함수
+- AJAX연동이나 여타 javascript 라이브러리와의 연동이 가능하다고 한다.
+
+##### 내부 props 및 state 변경 시
+
+**componentWillReceiveProps**
+- props의 값이 상위 컴포넌트에서 변경되었을 때 호출되어진다.
+- 여기서 setState를 하면 값은 변경되어지지만, 추가적인 과정이 발생하지는 않는다.
+
+**shouldComponentUpdate**
+- props또는 state가 변경된 후 진입하는 함수로, 다시한번 렌더링을 거칠지 거치지 않을 지 결정하는 함수
+- true를 return하면 새롭게 렌더링되어진다.
+
+**componentWillUpdate**
+- 컴포넌트가 업데이트 되기 이전에 실행된다.
+- 여기서 setState의 과정을 거치면 무한루프에 빠지게 된다
+- setState시 shouldComponentUpdate로 진입하고, componentWillUpdate로 진입하는 과정을 반복하기 때문인가? 알아봐야함
+
+
+**componentDidMount**
+- 컴포넌트가 렌더링을 마친 후 실행된다.
+- 어디에 쓰일까...
+
+##### 삭제
+
+**componentWillUnmount**
+- 컴포넌트가 DOM에서 사라진 이후에 실행되어진다.
