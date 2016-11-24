@@ -8,9 +8,9 @@ class Contacts extends React.Component {
     this.state = {
       contactData: [
         {name:'clogic', phone:'010-0000-0000'},
-        {name:'clogic', phone:'010-0000-0000'},
-        {name:'clogic', phone:'010-0000-0000'},
-        {name:'clogic', phone:'010-0000-0000'}
+        {name:'clogic', phone:'010-0000-0001'},
+        {name:'clogic', phone:'010-0000-0002'},
+        {name:'clogic', phone:'010-0000-0003'}
       ],
       selectedKey: -1,
       selected: {
@@ -79,21 +79,20 @@ class Contacts extends React.Component {
   }
 
   _edit(name, phone) {
-    // 읽어야함
     this.setState({
-        contactData: update(
-            this.state.contactData,
-            {
-                [this.state.selectedKey]: {
-                    name: { $set: name },
-                    phone: { $set: phone }
-                }
-            }
-        ),
-        selected: {
-            name: name,
-            phone: phone
-        }
+      contactData: update(
+          this.state.contactData,
+          {
+              [this.state.selectedKey]: {
+                  name: { $set: name },
+                  phone: { $set: phone }
+              }
+          }
+      ),
+      selected: {
+          name: name,
+          phone: phone
+      }
     });
   }
 
@@ -183,7 +182,7 @@ class ContactEditor extends React.Component {
     };
   }
 
-  // 이것도 읽어야함
+  // ContactEditor 내부의 임의의 props가 외부에서 변경되었을때 호출되어진다.
   componentWillReceiveProps(nextProps) {
     this.setState({
       name: nextProps.contact.name,
@@ -225,7 +224,7 @@ class ContactEditor extends React.Component {
           </button>
         </p>
       </div>
-      )
+      );
   }
 }
 
