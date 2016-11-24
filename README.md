@@ -134,6 +134,23 @@ this.setState({
 ~~~
 
 #### 원소 수정하기
+~~~javascript
+this.setState({
+  contactData: update(
+    this.state.contactData,
+    {
+      [this.state.selectedKey]: {
+        name: { $set: name },
+        phone: { $set: phone }
+      }
+    }
+  ),
+  selected: {
+    name: name,
+    phone: phone
+  }
+});
+~~~
 
 #### 원소 삭제하기
 ~~~javascript
