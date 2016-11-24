@@ -109,3 +109,40 @@ updateHeader(text) {
 와 같이 사용한다.
 
 state를 업데이트 할 때 ES6의 class에서는 auto binding이 되지 않으므로 setState 메소드를 포함하는 메소드를 bind해주어야 한다.
+
+### State내부 Array에 원소 삽입/수정/제거
+
+this.state 내부의 Array에 직접 접근하여 삽입/수정/제거를 하면 안된다. 이건 flask할때 겪었던 증상과 같은 맥락인듯싶다.
+그래서 react-addons-update를 사용하려 했지만 이미 deprecated된듯하고 Immutability-helper를 사용하였다.
+
+~~~
+$ npm install --save immutability-helper
+~~~
+
+js에 소스 추가
+~~~
+import update from 'immutability-helper;
+~~~
+
+#### 원소 삽입하기
+~~~javascript
+this.setState({
+  contactData: update(this.state.contactData, {
+    $push: [{'name': name, 'phone': phone}]
+  })
+});
+~~~
+
+#### 원소 수정하기
+
+#### 원소 삭제하기
+~~~javascript
+this.setState({
+  contactData: update(this.state.contactData, {
+    $splice: [[this.state.selectedKey, 1]]
+  }),
+  selectedKey: -1
+});
+~~~
+$splice시 []안에 배열을 던져 삭제할 범위를 지정한다.
+ex) $splice: [ [startIndex, range] ]
